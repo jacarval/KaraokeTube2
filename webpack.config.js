@@ -18,6 +18,15 @@ module.exports = {
       'foundation-sites/dist/foundation-flex.css',
       '!!script!jquery/dist/jquery.min.js',
       '!!script!foundation-sites/dist/foundation.min.js',
+      'immutable',
+      'isomorphic-fetch',
+      '!!react',
+      'react-dom',
+      'redux',
+      'react-redux',
+      'react-router',
+      'react-youtube',
+      'socket.io-client'
     ]
   },
 

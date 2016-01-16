@@ -54,12 +54,6 @@ const Card = (props) => {
   </div>
 }
 
-const CardColumns = (props) => {
-  return <div className="card-columns">
-    {props.children}
-  </div>
-}
-
 function mapStateToProps(state){
 	return {
 		queue: state.get('queue')

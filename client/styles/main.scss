@@ -101,6 +101,7 @@ body {
 .search, .queue {
   max-height: 100vh;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #spinner {

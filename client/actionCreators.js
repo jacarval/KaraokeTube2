@@ -1,12 +1,13 @@
 import fetch from 'isomorphic-fetch'
 import { Map, List } from 'immutable'
 
-function requestResults(query) {
+function requestResults(request) {
 	return {
 		type: 'REQUEST_RESULTS',
 		search: Map({
 			isSearching: true,
-			query,
+			query: request.query,
+			user: request.user,
 			results: List()
 		})
 	}
@@ -18,6 +19,7 @@ function receiveResults(response) {
 		type: 'RECEIVE_RESULTS',
 		search: Map({
 			isSearching: false,
+			user: user,
 			results: List(json.items.map(
 				(item) => Map({ 
 					user: user,
@@ -37,7 +39,7 @@ export function search(request) {
 
 	return dispatch => {
 
-		dispatch(requestResults(query))
+		dispatch(requestResults(request))
 
 		return fetch(`${url}${query}${params}`)
 			.then(response => response.json())
