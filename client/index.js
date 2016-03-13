@@ -3,7 +3,7 @@ import './styles/main.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import Router, { Route } from 'react-router'
+import {Router, Route, browserHistory } from 'react-router'
 import io from 'socket.io-client'
 
 import makeStore from './store'
@@ -26,7 +26,7 @@ socket.on('state', state =>
 
 ReactDOM.render( 
 	<Provider store={store}>
-		<Router>
+		<Router history={browserHistory}>
 			<Route component={AppContainer}>
 				<Route path="/" component={Home} />
 				<Route path="/player" component={PlayerContainer} />
