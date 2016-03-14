@@ -1,10 +1,12 @@
 import { List, Map, fromJS } from 'immutable'
 
-export const INITIAL_STATE = Map({ queue: List(), playing: Map() })
-
-export function setQueue(state, queue) {
-	return state.set('queue', fromJS(queue))
-}
+export const INITIAL_STATE = fromJS(
+	{ 
+		current: 0,
+		queue: [],
+		videos: {},
+	}
+)
 
 export function setState(state) {
 	return fromJS(state)
@@ -12,46 +14,49 @@ export function setState(state) {
 
 export function getNext(state) {
 	const queue = state.get('queue')
-
-	if (queue && queue.size > 0) {
+	const current = state.get('current')
+	if (queue && queue.size > current + 1) {
 		return state.merge({
-			playing: queue.first(),
-			queue: queue.shift()
-		})
-	} else {
-		return state.merge({
-			playing: Map({ id: 'YHX22LXN6rA', title: 'Disco!' }),
-			queue: List.of(Map({ id: 'dQw4w9WgXcQ', title: 'Rick Astley - Never Gonna Give You Up', thumburl: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg' }))
+			current: current + 1
 		})
 	}
 }
 
 export function playNow(state, song) {
-	const queue = state.get('queue').filterNot(_song => _song.get('id') === song.id)
+	const current = state.get('current')
+	const queue = state.get('queue')
+	const videos = state.get('videos')
 	return state.merge({
-		queue: queue,
-		playing: Map(song)
+		videos: videos.set(song.id, Map(song)),
+		queue: queue.insert(current, song.id),
+		current: current + 1
 	})
 }
 
 export function addSong(state, song) {
 	const queue = state.get('queue')
-	const isInQueue = queue.reduce((prev, curr) => {return (song.id === curr.get('id') || prev)}, false)
+	const videos = state.get('videos') 
 	return state.merge({
-		queue: isInQueue ? queue : queue.push(Map(song))
+		queue: queue.push(song.id),
+		videos: videos.set(song.id, Map(song))
 	})
 }
 
 export function addSongNext(state, song) {
-	const queue = state.get('queue').filterNot(_song => _song.get('id') === song.id)
+	const current = state.get('current')
+	const queue = state.get('queue')
+	const videos = state.get('videos')
 	return state.merge({
-		queue: queue.unshift(Map(song))
+		videos: videos.set(song.id, Map(song)),
+		queue: queue.insert(current + 1, song.id)
 	})
 }
 
-export function removeSong(state, song) {
+export function removeSong(state, song, position) {
 	const queue = state.get('queue')
+	const videos = state.get('videos')
 	return state.merge({
-		queue: queue.filterNot(_song => _song.get('id') === song.id)
+		videos: videos.filterNot(_song => _song.get('id') === song.id),
+		queue: queue.delete(position)
 	})
 }

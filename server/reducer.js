@@ -15,7 +15,7 @@ export default function reducer(state = INITIAL_STATE, action) {
 		case 'PLAY_NOW':
 			return playNow(state, action.song)
 		case 'REMOVE_SONG':
-			return removeSong(state, action.song)
+			return removeSong(state, action.song, action.position)
 	}
 	return state
 }
