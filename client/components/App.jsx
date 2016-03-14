@@ -70,7 +70,6 @@ const OffCanvasWrapper = (props) => {
     <div className="off-canvas-wrapper-inner" data-off-canvas-wrapper>
       <div className="off-canvas position-right" id="offCanvas" data-off-canvas data-position="right">
         <ul className="vertical menu" data-drilldown>
-          <li className="show-for-medium"><Link data-toggle="offCanvas" to="/player">Player</Link></li>
           <li><Link data-toggle="offCanvas" to="/queue">Queue</Link></li>
           <li><Link data-toggle="offCanvas" to="/search">Search</Link></li>
           {/*<li>
