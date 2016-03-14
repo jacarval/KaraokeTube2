@@ -33,26 +33,20 @@ export class App extends Component {
     return <OffCanvasWrapper>
       <div className="top-bar">
         <div className="top-bar-left">
-          <ul className="dropdown menu align-middle" data-dropdown-menu>
-            <li className="menu float-left" id="brand">
+          <ul className="dropdown menu align-left" data-dropdown-menu>
+            <li id="brand">
               <Link className="button" to="/">
                 <span className="karaoke">Karaoke</span>
                 <span className="tube">Tube</span>
               </Link>
             </li>
-            <li className="show-for-medium has-submenu">
-              <Link className="button" to="/player">Player</Link>
-              <ul className="submenu menu vertical" data-submenu>
-                <Link className="button" to="/player" target="_blank">New Window</Link>
-              </ul>
-            </li>
+            <li className="show-for-medium"><Link className="button" to="/player">Player</Link></li>
             <li className="show-for-medium"><Link className="button" to="/queue">Queue</Link></li>
             <li className="show-for-medium"><Link className="button" to="/search">Search</Link></li>
-            <li className="float-right hide-for-medium"><button type="button" className="button" data-toggle="offCanvas"><i className="fa fa-bars"/></button></li>
           </ul>
         </div>
-        <div className="top-bar-right show-for-medium">
-          <ul className="menu">
+        <div className="top-bar-right">
+          <ul className="menu show-for-medium">
             {/*<li><a className="button" ><i className="fa fa-undo"/></a></li>*/}
             <li><a className="button" onClick={e => this.stop(e)}><i className="fa fa-stop"/></a></li>
             <li><a className="button" onClick={e => this.pause(e)}><i className="fa fa-pause"/></a></li>
@@ -60,6 +54,9 @@ export class App extends Component {
             <li><a className="button" onClick={e => this.play(e)}><i className="fa fa-play"/></a></li>
             <li><a className="button" onClick={e => this.next(e)}><i className="fa fa-step-forward"/></a></li>
             <li><button type="button" className="button" data-toggle="offCanvas"><i className="fa fa-bars"/></button></li>
+          </ul>
+          <ul className="menu hide-for-medium">
+            <li className="hide-for-medium"><button type="button" className="button" data-toggle="offCanvas"><i className="fa fa-bars"/></button></li>
           </ul>
         </div>
       </div>
@@ -73,6 +70,7 @@ const OffCanvasWrapper = (props) => {
     <div className="off-canvas-wrapper-inner" data-off-canvas-wrapper>
       <div className="off-canvas position-right" id="offCanvas" data-off-canvas data-position="right">
         <ul className="vertical menu" data-drilldown>
+          <li className="show-for-medium"><Link data-toggle="offCanvas" to="/player">Player</Link></li>
           <li><Link data-toggle="offCanvas" to="/queue">Queue</Link></li>
           <li><Link data-toggle="offCanvas" to="/search">Search</Link></li>
           {/*<li>
