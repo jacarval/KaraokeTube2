@@ -1,13 +1,13 @@
-import { INITIAL_STATE, setQueue, setState, getNext, addSong, addSongNext, removeSong, playNow } from './core'
+import { INITIAL_STATE, setQueue, setState, getNext, getPrev, addSong, addSongNext, removeSong, playNow, setPlayerState } from './core'
 
 export default function reducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
-		case 'SET_STATE':
-			return setState(state)
-		case 'SET_QUEUE':
-			return setQueue(state, action.queue)
+		case 'SET_PLAYER_STATE':
+			return setPlayerState(state, action.state)
 		case 'GET_NEXT':
 			return getNext(state)
+		case 'GET_PREV':
+			return getPrev(state)
 		case 'ADD_SONG':
 			return addSong(state, action.song)
 		case 'ADD_SONG_NEXT':

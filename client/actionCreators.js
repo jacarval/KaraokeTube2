@@ -62,10 +62,25 @@ export function setPlayer(player) {
 	}
 }
 
+export function setPlayerState(state) {
+	return {
+		meta: { remote: true },
+		type: 'SET_PLAYER_STATE',
+		state
+	}
+}
+
 export function getNext() {
 	return {
 		meta: { remote: true },
 		type: 'GET_NEXT'
+	}
+}
+
+export function getPrev() {
+	return {
+		meta: { remote: true },
+		type: 'GET_PREV'
 	}
 }
 

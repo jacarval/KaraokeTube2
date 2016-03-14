@@ -10,28 +10,23 @@ export class App extends Component {
   }
 
   stop(e) {
-    const player = this.props.player
-    player && player.stopVideo()
+    this.props.setPlayerState('stop')
   }
 
   pause(e) {
-    const player = this.props.player
-    player && player.pauseVideo()
+    this.props.setPlayerState('pause')
   }
 
   prev(e) {
-    const player = this.props.player
-    player && player.seekTo(0)
+    this.props.getPrev()
   }
 
   play(e) {
-    const player = this.props.player
-    player && player.playVideo()
+    this.props.setPlayerState('play')
   }
 
   next(e) {
-    const player = this.props.player
-    player && this.props.getNext()
+    this.props.getNext()
   }
 
   render() {
@@ -99,8 +94,7 @@ const OffCanvasWrapper = (props) => {
 function mapStateToProps(state){
   return {
     queue: state.get('queue'),
-    playing: state.get('playing'),
-    player: state.get('player')
+    playing: state.get('playing')
   }
 }
 

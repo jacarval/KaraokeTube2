@@ -2,61 +2,80 @@ import { List, Map, fromJS } from 'immutable'
 
 export const INITIAL_STATE = fromJS(
 	{ 
-		current: 0,
+		previous: [],
+		playing: null, 
 		queue: [],
-		videos: {},
+		playerState: 'stop'
 	}
 )
 
-export function setState(state) {
-	return fromJS(state)
+export function getNext(state) {
+	const previous = state.get('previous') || []
+	const playing = state.get('playing')
+	const queue = state.get('queue')
+
+	if (queue && queue.size > 0) {
+		return state.merge({
+			previous: playing ? previous.push(playing) : previous,
+			playing: queue.first(),
+			queue: queue.shift()
+		})
+	} else {
+		return state
+	}
 }
 
-export function getNext(state) {
+export function getPrev(state) {
+	const previous = state.get('previous') || []
+	const playing = state.get('playing')
 	const queue = state.get('queue')
-	const current = state.get('current')
-	if (queue && queue.size > current + 1) {
+
+	if (previous && previous.size > 0) {
 		return state.merge({
-			current: current + 1
+			playing: previous.last(),
+			previous: previous.pop(),
+			queue: playing ? queue.unshift(playing) : queue
 		})
+	} else {
+		return state
 	}
 }
 
 export function playNow(state, song) {
-	const current = state.get('current')
-	const queue = state.get('queue')
-	const videos = state.get('videos')
+	const previous = state.get('previous') || []
+	const playing = state.get('playing')
+	const queue = state.get('queue').filterNot(_song => _song.get('id') === song.id)
 	return state.merge({
-		videos: videos.set(song.id, Map(song)),
-		queue: queue.insert(current, song.id),
-		current: current + 1
+		previous: playing ? previous.push(playing) : previous,
+		playing: Map(song),
+		queue: queue
 	})
 }
 
 export function addSong(state, song) {
 	const queue = state.get('queue')
-	const videos = state.get('videos') 
+	const isInQueue = queue.reduce((prev, curr) => {return (song.id === curr.get('id') || prev)}, false)
 	return state.merge({
-		queue: queue.push(song.id),
-		videos: videos.set(song.id, Map(song))
+		queue: isInQueue ? queue : queue.push(Map(song))
 	})
 }
 
 export function addSongNext(state, song) {
-	const current = state.get('current')
-	const queue = state.get('queue')
-	const videos = state.get('videos')
+	const queue = state.get('queue').filterNot(_song => _song.get('id') === song.id)
 	return state.merge({
-		videos: videos.set(song.id, Map(song)),
-		queue: queue.insert(current + 1, song.id)
+		queue: queue.unshift(Map(song))
 	})
 }
 
-export function removeSong(state, song, position) {
+export function removeSong(state, song) {
 	const queue = state.get('queue')
-	const videos = state.get('videos')
 	return state.merge({
-		videos: videos.filterNot(_song => _song.get('id') === song.id),
-		queue: queue.delete(position)
+		queue: queue.filterNot(_song => _song.get('id') === song.id)
 	})
 }
+
+export function setPlayerState(state, playerState) {
+	return state.merge({
+		playerState: playerState
+	})	
+} 

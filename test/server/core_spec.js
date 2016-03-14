@@ -1,7 +1,7 @@
 import { List, Map, fromJS } from 'immutable'
 import { expect } from 'chai'
 
-import { setQueue, getNext, addSong, addSongNext, removeSong, playNow, INITIAL_STATE } from '../../server/core'
+import { setQueue, getNext, addSong, addSongNext, removeSong, playNow } from '../../server/core'
 
 describe('server application logic', () => {
 
@@ -9,22 +9,21 @@ describe('server application logic', () => {
 
 		it('gets the next video to play', () => {
 			const state = fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 0
+				playing: null,
+				queue: [
+					{ id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			})
 			const nextState = getNext(state)
 
 			expect(nextState).to.equal(fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 1
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			}))
 		})
 	})
@@ -33,104 +32,95 @@ describe('server application logic', () => {
 
 		it('adds a song to the end of the queue', () => {
 			const state = fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 0
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			})
 			const song = { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
 			const nextState = addSong(state, song)
 
 			expect(nextState).to.equal(fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
-					'YQHsXMglC9A': { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E', 'YQHsXMglC9A'],
-				current: 0
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
+					{ id: 'YQHsXMglC9A', title: 'Adele - Hello' }
+				],
+				previous: []
 			}))
 		})
 	})
 
 	describe('addSongNext', () => {
 
-		it('adds a song to the end of the queue', () => {
+		it('adds a song to the beginning of the queue', () => {
 			const state = fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 0
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			})
 			const song = { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
 			const nextState = addSongNext(state, song)
 
 			expect(nextState).to.equal(fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
-					'YQHsXMglC9A': { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
-				},
-				queue: ['rejA6QRtrAI', 'YQHsXMglC9A', 'lZoxdPGu_4E'],
-				current: 0
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'YQHsXMglC9A', title: 'Adele - Hello' },
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			}))
-		})	
+		})
 	})
 
 	describe('playNow', () => {
 
 		it('immediately plays a song', () => {
 			const state = fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 0
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: []
 			})
 			const song = { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
 			const nextState = playNow(state, song)
 
 			expect(nextState).to.equal(fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
-					'YQHsXMglC9A': { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
-				},
-				queue: ['YQHsXMglC9A', 'rejA6QRtrAI', 'lZoxdPGu_4E'],
-				current: 1
+				playing: { id: 'YQHsXMglC9A', title: 'Adele - Hello' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }
+				],
+				previous: [{ id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' }]
 			}))
 		})
+
 	})
 
 	describe('removeSong', () => {
 
 		it('removes a specified song from the queue', () => {
 			const state = fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
-					'YQHsXMglC9A': { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
-				},
-				queue: ['rejA6QRtrAI', 'lZoxdPGu_4E', 'YQHsXMglC9A'],
-				current: 1
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
+					{ id: 'YQHsXMglC9A', title: 'Adele - Hello' }
+				],
+				previous: []
 			})
-			const song = Map({ id: 'YQHsXMglC9A', title: 'Adele - Hello' })
-			const nextState = removeSong(state, song, 2)
+			const song = { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
+			const nextState = removeSong(state, song, 1)
 
 			expect(nextState).to.equal(fromJS({
-				videos: {
-					'rejA6QRtrAI': { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
-					'lZoxdPGu_4E': { id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' },
-					'YQHsXMglC9A': { id: 'YQHsXMglC9A', title: 'Adele - Hello' }
-				},
-				queue: ['rejA6QRtrAI','lZoxdPGu_4E'],
-				current: 1
+				playing: { id: 'rejA6QRtrAI', title: 'D\'Angelo and The Vanguard - Betray My Heart' },
+				queue: [
+					{ id: 'lZoxdPGu_4E', title: 'D\'Angelo and The Vanguard - Ain\'t that easy' }			
+				],
+				previous: []
 			}))
-		})	
+		})
 	})
 })

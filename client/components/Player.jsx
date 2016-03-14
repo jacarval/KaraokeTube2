@@ -19,6 +19,18 @@ export class Player extends Component {
 
   onReady(event) {
     this.props.setPlayer(event.target)
+  }  
+
+  componentDidUpdate() {
+    const player = this.props.player
+    switch(this.props.playerState) {
+      case 'play':
+        player && player.playVideo(); break;
+      case 'pause':
+        player && player.pauseVideo(); break;
+      case 'stop':
+        player && player.stopVideo(); break;
+    }
   }
 
   render() {
@@ -27,10 +39,10 @@ export class Player extends Component {
         <YouTube
           videoId={this.getVideoId()}
           onEnd={() => this.props.getNext()}
-          onError={() => this.props.getNext()}
+          onError={e => console.log(e)}
           opts={{ playerVars: { showinfo: 0, autoplay: 1 , iv_load_policy: 3 } }}
           className={'player'}
-          onReady={e => this.onReady(e)}
+          onReady={e => {this.onReady(e); console.log(e)}}
         />
         <div data-alert className="alert-box success">
           <i className="fi-check"></i> {`${this.props.user} - ${this.props.title}`} 
@@ -45,7 +57,9 @@ function mapStateToProps(state){
   return {
     videoId: state.getIn(['playing', 'id']),
     user: state.getIn(['playing', 'user']),
-    title: state.getIn(['playing', 'title'])
+    title: state.getIn(['playing', 'title']),
+    playerState: state.get('playerState'),
+    player: state.get('player')
   }
 }
 
