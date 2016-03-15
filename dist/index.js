@@ -22,9 +22,13 @@ var _reducer = require('./reducer');
 
 var _reducer2 = _interopRequireDefault(_reducer);
 
-var _db = require('./db');
+var _pg_db = require('./pg_db');
 
-var db = _interopRequireWildcard(_db);
+var db = _interopRequireWildcard(_pg_db);
+
+var _core = require('./core');
+
+var _core2 = _interopRequireDefault(_core);
 
 // var _serverMiddleware = require('./serverMiddleware');
 
@@ -49,7 +53,7 @@ app.get('/', function (req, res) {
 
 db.getRoom('lobby').then(function (state) {
 
-	var store = (0, _redux.createStore)(_reducer2.default, (0, _immutable.fromJS)(state));
+	var store = (0, _redux.createStore)(_reducer2.default, (0, _immutable.fromJS)(state || _core2.default));
 
 	io.on('connection', function (socket) {
 		socket.emit('state', store.getState().toJS());
