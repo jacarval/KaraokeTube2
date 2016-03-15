@@ -24,3 +24,4 @@ export function updateRoom(id, room) {
 		.then(() => room);
 	});
 }
+

@@ -33,7 +33,7 @@ export class Search extends Component {
               user={entry.get('user')}
               description={entry.get('description')}
               thumburl={entry.get('thumburl')}
-              handleSelect={(e) => {this.props.addSong(entry)}} // this needs to be fixed
+              handleSelect={(e) => {this.props.addSong(entry); console.log(e.target.className += ' disabled')}} // this needs to be fixed
               handlePlayNext={(e) => this.props.addSongNext(entry)}
               handlePlayNow={e => this.props.playNow(entry)}
             />

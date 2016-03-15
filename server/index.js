@@ -5,7 +5,8 @@ import socket_io from 'socket.io'
 import { createStore } from 'redux'
 import { fromJS } from 'immutable'
 import reducer from './reducer'
-import * as db from './db'
+import * as db from './pg_db'
+import INITIAL_STATE from './core'
 
 import applyDevMiddleware from './serverMiddleware'
 
@@ -24,7 +25,7 @@ app.get('/', function (req, res) {
 
 db.getRoom('lobby').then(state => {
 
-	const store = createStore(reducer, fromJS(state))
+	const store = createStore(reducer, fromJS(state || INITIAL_STATE))
 
 	io.on('connection', (socket) => {
 		socket.emit('state', store.getState().toJS())

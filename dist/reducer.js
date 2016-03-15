@@ -12,12 +12,12 @@ function reducer() {
 	var action = arguments[1];
 
 	switch (action.type) {
-		case 'SET_STATE':
-			return (0, _core.setState)(state);
-		case 'SET_QUEUE':
-			return (0, _core.setQueue)(state, action.queue);
+		case 'SET_PLAYER_STATE':
+			return (0, _core.setPlayerState)(state, action.state);
 		case 'GET_NEXT':
 			return (0, _core.getNext)(state);
+		case 'GET_PREV':
+			return (0, _core.getPrev)(state);
 		case 'ADD_SONG':
 			return (0, _core.addSong)(state, action.song);
 		case 'ADD_SONG_NEXT':
@@ -25,7 +25,7 @@ function reducer() {
 		case 'PLAY_NOW':
 			return (0, _core.playNow)(state, action.song);
 		case 'REMOVE_SONG':
-			return (0, _core.removeSong)(state, action.song);
+			return (0, _core.removeSong)(state, action.song, action.position);
 	}
 	return state;
 }

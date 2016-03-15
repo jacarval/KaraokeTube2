@@ -4,49 +4,65 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.INITIAL_STATE = undefined;
-exports.setQueue = setQueue;
-exports.setState = setState;
 exports.getNext = getNext;
+exports.getPrev = getPrev;
 exports.playNow = playNow;
 exports.addSong = addSong;
 exports.addSongNext = addSongNext;
 exports.removeSong = removeSong;
+exports.setPlayerState = setPlayerState;
 
 var _immutable = require('immutable');
 
-var INITIAL_STATE = exports.INITIAL_STATE = (0, _immutable.Map)({ queue: (0, _immutable.List)(), playing: (0, _immutable.Map)() });
-
-function setQueue(state, queue) {
-	return state.set('queue', (0, _immutable.fromJS)(queue));
-}
-
-function setState(state) {
-	return (0, _immutable.fromJS)(state);
-}
+var INITIAL_STATE = exports.INITIAL_STATE = (0, _immutable.fromJS)({
+	previous: [],
+	playing: null,
+	queue: [],
+	playerState: 'stop'
+});
 
 function getNext(state) {
+	var previous = state.get('previous') || [];
+	var playing = state.get('playing');
 	var queue = state.get('queue');
 
 	if (queue && queue.size > 0) {
 		return state.merge({
+			previous: playing ? previous.push(playing) : previous,
 			playing: queue.first(),
 			queue: queue.shift()
 		});
 	} else {
+		return state;
+	}
+}
+
+function getPrev(state) {
+	var previous = state.get('previous') || [];
+	var playing = state.get('playing');
+	var queue = state.get('queue');
+
+	if (previous && previous.size > 0) {
 		return state.merge({
-			playing: (0, _immutable.Map)({ id: 'YHX22LXN6rA', title: 'Disco!' }),
-			queue: _immutable.List.of((0, _immutable.Map)({ id: 'dQw4w9WgXcQ', title: 'Rick Astley - Never Gonna Give You Up', thumburl: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg' }))
+			playing: previous.last(),
+			previous: previous.pop(),
+			queue: playing ? queue.unshift(playing) : queue
 		});
+	} else {
+		return state;
 	}
 }
 
 function playNow(state, song) {
+	var previous = state.get('previous') || [];
+	var playing = state.get('playing');
 	var queue = state.get('queue').filterNot(function (_song) {
 		return _song.get('id') === song.id;
 	});
 	return state.merge({
-		queue: queue,
-		playing: (0, _immutable.Map)(song)
+		previous: playing ? previous.push(playing) : previous,
+		playing: (0, _immutable.Map)(song),
+		queue: queue
 	});
 }
 
@@ -75,5 +91,11 @@ function removeSong(state, song) {
 		queue: queue.filterNot(function (_song) {
 			return _song.get('id') === song.id;
 		})
+	});
+}
+
+function setPlayerState(state, playerState) {
+	return state.merge({
+		playerState: playerState
 	});
 }
