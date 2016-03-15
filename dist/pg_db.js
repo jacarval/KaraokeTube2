@@ -37,7 +37,6 @@ function getRoom(id) {
 }
 
 function updateRoom(id, state) {
-	console.log(id, state);
 	return db.none("UPDATE rooms SET state=$1 WHERE id=$2", [state, id]).catch(function (err) {
 		return console.log(' --- update room error --- \n', err);
 	});

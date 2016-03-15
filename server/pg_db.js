@@ -25,7 +25,6 @@ export function getRoom(id) {
 }
 
 export function updateRoom(id, state) {
-	console.log(id, state)
 	return db.none("UPDATE rooms SET state=$1 WHERE id=$2", [state, id])
 			 .catch(err => console.log(' --- update room error --- \n', err))
 }

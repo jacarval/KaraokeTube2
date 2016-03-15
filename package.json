@@ -53,9 +53,9 @@
     "webpack-hot-middleware": "^2.6.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production node dist",
+    "start": "node dist",
     "start-dev": "nodemon --watch server server --exec babel-node",
-    "build": "NODE_ENV=production npm run build-server & npm run build-client",
+    "build": "npm run build-server & npm run build-client",
     "build-server": "babel server --out-dir dist",
     "build-client": "webpack -p --config webpack.config.prod.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js  --recursive",
