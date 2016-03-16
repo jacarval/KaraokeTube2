@@ -19,7 +19,7 @@ export class Player extends Component {
 
   onReady(event) {
     this.props.setPlayer(event.target)
-  }  
+  }
 
   componentDidUpdate() {
     const player = this.props.player
@@ -44,10 +44,6 @@ export class Player extends Component {
           className={'player'}
           onReady={e => {this.onReady(e); console.log(e)}}
         />
-        <div data-alert className="alert-box success">
-          <i className="fi-check"></i> {`${this.props.user} - ${this.props.title}`} 
-          <a href="#" className="close">&CircleTimes;</a>
-        </div>    
       </div>
     )
   }
