@@ -99,7 +99,7 @@ body {
 }
 
 .search, .queue {
-  max-height: 100vh;
+  max-height: 91vh;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -125,6 +125,30 @@ body {
       background-color: rgba(255,255,255,0.5);
       border: 3px solid white;
       color: black;
+    }
+  }
+}
+
+.media-object {
+  margin: 5px 170px;
+  padding: 15px 25px 0px 15px;
+  background-color: white;
+  .thumbnail {
+    margin-bottom: 0;
+  }
+  .media-object-section {
+    padding-bottom: 0!important;
+  }
+  img {
+    max-width: 160px;
+  }
+}
+
+@media screen and (max-width: 39.9375em) {
+  .media-object {
+    margin: 5px 15px;
+    img {
+      max-width: none;
     }
   }
 }
