@@ -15,7 +15,7 @@ exports.setPlayerState = setPlayerState;
 var _immutable = require('immutable');
 
 var INITIAL_STATE = exports.INITIAL_STATE = (0, _immutable.fromJS)({
-	previous: [],
+	previous: [{ user: 'doorbot', id: 'dQw4w9WgXcQ', title: 'Rick Astley - Never Gonna Give You Up', thumburl: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg' }],
 	playing: null,
 	queue: [],
 	playerState: 'stop'
