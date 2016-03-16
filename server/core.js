@@ -2,7 +2,7 @@ import { List, Map, fromJS } from 'immutable'
 
 export const INITIAL_STATE = fromJS(
 	{ 
-		previous: [],
+		previous: [{ user: 'doorbot', id: 'dQw4w9WgXcQ', title: 'Rick Astley - Never Gonna Give You Up', thumburl: 'https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg'}],
 		playing: null, 
 		queue: [],
 		playerState: 'stop'
