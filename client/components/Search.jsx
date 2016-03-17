@@ -33,7 +33,7 @@ export class Search extends Component {
               user={entry.get('user')}
               description={entry.get('description')}
               thumburl={entry.get('thumburl')}
-              handleSelect={(e) => {this.props.addSong(entry); console.log(e.target.className += ' disabled')}} // this needs to be fixed
+              handleSelect={(e) => {e.target.className += ' disabled'; this.props.addSong(entry); }} // this needs to be fixed
               handlePlayNext={(e) => this.props.addSongNext(entry)}
               handlePlayNow={e => this.props.playNow(entry)}
             />
@@ -59,6 +59,7 @@ class SearchForm extends Component {
   }
 
   handleSubmit(e) {
+    $('input').blur()
     e.preventDefault()
     const { user, query } = this.state
     if (user && query) {
@@ -74,13 +75,13 @@ class SearchForm extends Component {
         <div className="small-12 medium-4 columns">
           <div className="input-group">
             <span className="input-group-label"><i className="fa fa-user"/></span>
-            <input value={user} onChange={e => this.userChange(e)} className="input-group-field" type="text" placeholder="Enter your name"/>
+            <input value={user} onChange={e => this.userChange(e)} className="input-group-field" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
           </div>
         </div>
         <div className="small-12 medium-4 columns">
           <div className="input-group">
             <span className="input-group-label"><i className="fa fa-music"/></span>
-            <input value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song"/>
+            <input value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
           </div>
         </div>
         <div className="shrink columns">

@@ -17,42 +17,59 @@ export class Queue extends Component {
     return this.props.playing ? [this.props.playing] : []
   }
 
-  componentDidMount() {
-    document.getElementById("now_playing").scrollIntoView()
+  componentDidUpdate(prevProps) {
+    if (prevProps.playing && this.props.playing && prevProps.playing.get('id') !== this.props.playing.get('id')) {
+      // http://stackoverflow.com/a/21778615
+      var el = $("#now_playing");
+      var elOffset = el.offset().top;
+      var elHeight = el.height();
+      var windowHeight = $(window).height();
+      var offset;
+
+      if (elHeight < windowHeight) {
+        offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+      }
+      else {
+        offset = elOffset;
+      }
+
+      var speed = 500;
+      $('html, body').animate({scrollTop:offset}, speed); 
+    }
   }
 
   render() {
   	return (
-  		<div className="queue">
-        <div className="container">
-            {this.getPrevious().map(song => {
-              return <Previous key={song.get('id')}
-                title={song.get('title')}
-                user={song.get('user')}
-                description={song.get('description')}
-                thumburl={song.get('thumburl')}
-              />
-            })}
-            {this.getPlaying().map(song => {
-              return <Playing key={song.get('id')}
-                title={song.get('title')}
-                user={song.get('user')}
-                description={song.get('description')}
-                thumburl={song.get('thumburl')}
-              />
-            })}
-            {this.getQueue().map(song => {
-              return <Next key={song.get('id')}
-                title={song.get('title')}
-                user={song.get('user')}
-                description={song.get('description')}
-                thumburl={song.get('thumburl')}
-                handleRemove={e => this.props.removeSong(song)}
-                handlePlayNext={(e) => this.props.addSongNext(song)}
-                handlePlayNow={e => this.props.playNow(song)}
-              />
-            })}
-        </div>
+  		<div className="queue" id="queue">
+        {this.getPrevious().map(song => {
+          return <Previous key={song.get('id')}
+            title={song.get('title')}
+            user={song.get('user')}
+            description={song.get('description')}
+            thumburl={song.get('thumburl')}
+          />
+        })}
+        <hr />
+        {this.getPlaying().map(song => {
+          return <Playing key={song.get('id')}
+            title={song.get('title')}
+            user={song.get('user')}
+            description={song.get('description')}
+            thumburl={song.get('thumburl')}
+          />
+        })}
+        <hr />
+        {this.getQueue().map(song => {
+          return <Next key={song.get('id')}
+            title={song.get('title')}
+            user={song.get('user')}
+            description={song.get('description')}
+            thumburl={song.get('thumburl')}
+            handleRemove={e => this.props.removeSong(song)}
+            handlePlayNext={(e) => this.props.addSongNext(song)}
+            handlePlayNow={e => this.props.playNow(song)}
+          />
+        })}
   		</div>
   	)
   }
@@ -113,28 +130,6 @@ const Next = (props) => {
         <a className="button" onClick={props.handleRemove}><i className="fa fa-remove"/> Remove</a>
       </div>
     </div>
-    </div>
-  </div>
-}
-
-const Card = (props) => {
-  return   <div className="small-12 medium-4 columns">
-    <div className="card">
-      <div className="image">
-        <img src={props.thumburl}/>
-        <span className="title">{props.user}</span>
-      </div>
-      <div className="content">
-        <p>{props.title}</p>
-        <small>{props.description}</small>
-      </div>
-      <div className="action">
-        <div className="expanded button-group">
-          <a className="button" onClick={props.handlePlayNow}><i className="fa fa-play"/> Now</a>
-          <a className="button" onClick={props.handlePlayNext}><i className="fa fa-play"/> Next</a>
-          <a className="button" onClick={props.handleRemove}><i className="fa fa-remove"/> Remove</a>
-        </div>
-      </div>
     </div>
   </div>
 }

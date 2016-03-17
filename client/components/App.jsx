@@ -31,7 +31,7 @@ export class App extends Component {
 
   render() {
     return <OffCanvasWrapper>
-      <div className="top-bar">
+      <div className="top-bar" id="top-bar">
         <div className="top-bar-left">
           <ul className="dropdown menu align-left" data-dropdown-menu>
             <li id="brand">
