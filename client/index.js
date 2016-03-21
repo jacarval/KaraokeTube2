@@ -21,19 +21,19 @@ const socket = io()
 const store = makeStore(socket)
 
 socket.on('state', state => 
-	store.dispatch(setState(state))
+  store.dispatch(setState(state))
 )
 
 ReactDOM.render( 
-	<Provider store={store}>
-		<Router history={hashHistory}>
-			<Route component={AppContainer}>
-				<Route path="/" component={Home} />
-				<Route path="player" component={PlayerContainer} />
-				<Route path="search" component={SearchContainer} />
-				<Route path="queue" component={QueueContainer} />
-			</Route>
-		</Router>
-	</Provider>, 
-	document.getElementById('root')
+  <Provider store={store}>
+    <Router history={hashHistory}>
+      <Route component={AppContainer}>
+        <Route path="/" component={Home} />
+        <Route path="player" component={PlayerContainer} />
+        <Route path="search" component={SearchContainer} />
+        <Route path="queue" component={QueueContainer} />
+      </Route>
+    </Router>
+  </Provider>, 
+  document.getElementById('root')
 )

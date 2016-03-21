@@ -40,7 +40,7 @@ export class Player extends Component {
           videoId={this.getVideoId()}
           onEnd={() => this.props.getNext()}
           onError={e => console.log(e)}
-          opts={{ playerVars: { showinfo: 0, autoplay: 1 , iv_load_policy: 3 } }}
+          opts={{ playerVars: { showinfo: 0, autoplay: 0 , iv_load_policy: 3 } }}
           className={'player'}
           onReady={e => {this.onReady(e); console.log(e)}}
         />

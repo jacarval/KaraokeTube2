@@ -17,24 +17,32 @@ export class Queue extends Component {
     return this.props.playing ? [this.props.playing] : []
   }
 
+  scrollToPlaying() {
+    // http://stackoverflow.com/a/21778615
+    var el = $("#now_playing");
+    var elOffset = el.offset().top;
+    var elHeight = el.height();
+    var windowHeight = $(window).height();
+    var offset;
+
+    if (elHeight < windowHeight) {
+      offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+    }
+    else {
+      offset = elOffset;
+    }
+
+    var speed = 1000;
+    $('html, body').animate({scrollTop:offset}, speed);
+  }
+
+  componentDidMount() {
+    this.scrollToPlaying()
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.playing && this.props.playing && prevProps.playing.get('id') !== this.props.playing.get('id')) {
-      // http://stackoverflow.com/a/21778615
-      var el = $("#now_playing");
-      var elOffset = el.offset().top;
-      var elHeight = el.height();
-      var windowHeight = $(window).height();
-      var offset;
-
-      if (elHeight < windowHeight) {
-        offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
-      }
-      else {
-        offset = elOffset;
-      }
-
-      var speed = 500;
-      $('html, body').animate({scrollTop:offset}, speed); 
+      this.scrollToPlaying()
     }
   }
 

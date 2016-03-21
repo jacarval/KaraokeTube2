@@ -12,16 +12,16 @@ const loggerMiddleware = createLogger({
 })
 
 const remoteActionMiddleware = socket => store => next => action => {
-	if (action.meta && action.meta.remote) {
-		socket.emit('action', action)
-	}
-	return next(action)
+  if (action.meta && action.meta.remote) {
+    socket.emit('action', action)
+  }
+  return next(action)
 }
 
 export default function(socket) {
-	return applyMiddleware(
-		remoteActionMiddleware(socket),
-		thunkMiddleware,
-		loggerMiddleware
-	)(createStore)(reducer)
+  return applyMiddleware(
+    remoteActionMiddleware(socket),
+    thunkMiddleware,
+    loggerMiddleware
+  )(createStore)(reducer)
 }
