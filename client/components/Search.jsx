@@ -72,13 +72,13 @@ class SearchForm extends Component {
     const { user, query } = this.state
     return  <form onSubmit={e => this.handleSubmit(e)}>
       <div className="row align-center">
-       <div className="columns small-12 medium-6 hide-for-medium">
+       <div className="columns small-12 hide-for-medium">
           <div className="input-group">
             <span className="input-group-label"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
           </div>
         </div>
-        <div className="columns small-12 medium-6">
+        <div className="columns small-12">
           <div className="input-group">
             <span className="input-group-label show-for-medium"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field show-for-medium" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
