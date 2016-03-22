@@ -18,7 +18,8 @@ export function getNext(state) {
 		return state.merge({
 			previous: playing ? previous.push(playing) : previous,
 			playing: queue.first(),
-			queue: queue.shift()
+			queue: queue.shift(),
+			playerState: 'stop'
 		})
 	} else {
 		return state
@@ -34,7 +35,8 @@ export function getPrev(state) {
 		return state.merge({
 			playing: previous.last(),
 			previous: previous.pop(),
-			queue: playing ? queue.unshift(playing) : queue
+			queue: playing ? queue.unshift(playing) : queue,
+			playerState: 'stop'
 		})
 	} else {
 		return state

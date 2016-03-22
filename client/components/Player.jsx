@@ -43,6 +43,8 @@ export class Player extends Component {
           opts={{ playerVars: { showinfo: 0, autoplay: 0 , iv_load_policy: 3 } }}
           className={'player'}
           onReady={e => {this.onReady(e); console.log(e)}}
+          onPlay={e => this.props.setPlayerState('play')}
+          onPause={e => this.props.setPlayerState('pause')}
         />
       </div>
     )

@@ -1,7 +1,8 @@
 import { Map, List, fromJS } from 'immutable'
 import { combineReducers } from 'redux'
+import isMobile from 'isMobile'
 
-const INITIAL_STATE = Map()
+const INITIAL_STATE = Map({ isMobile: isMobile() })
 
 export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -16,3 +17,4 @@ export default function reducer(state = INITIAL_STATE, action) {
   }
   return state
 }
+

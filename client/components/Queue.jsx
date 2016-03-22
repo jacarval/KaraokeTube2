@@ -32,7 +32,7 @@ export class Queue extends Component {
       offset = elOffset;
     }
 
-    var speed = 1000;
+    var speed = 200;
     $('html, body').animate({scrollTop:offset}, speed);
   }
 
@@ -135,7 +135,7 @@ const Next = (props) => {
       <div className="expanded button-group">
         <a className="button" onClick={props.handlePlayNow}><i className="fa fa-play"/> Now</a>
         <a className="button" onClick={props.handlePlayNext}><i className="fa fa-play"/> Next</a>
-        <a className="button" onClick={props.handleRemove}><i className="fa fa-remove"/> Remove</a>
+        <a className="button alert" onClick={props.handleRemove}><i className="fa fa-remove"/> Remove</a>
       </div>
     </div>
     </div>

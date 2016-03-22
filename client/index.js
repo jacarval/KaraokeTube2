@@ -15,7 +15,7 @@ import { AppContainer } from './components/App'
 import { PlayerContainer } from './components/Player'
 import { SearchContainer } from './components/Search'
 import { QueueContainer } from './components/Queue'
-import { Home } from './components/Home'
+import { HomeContainer } from './components/Home'
 
 const socket = io()
 const store = makeStore(socket)
@@ -28,7 +28,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route component={AppContainer}>
-        <Route path="/" component={Home} />
+        <Route path="/" component={HomeContainer} />
         <Route path="player" component={PlayerContainer} />
         <Route path="search" component={SearchContainer} />
         <Route path="queue" component={QueueContainer} />

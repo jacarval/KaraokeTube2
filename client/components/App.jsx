@@ -40,7 +40,7 @@ export class App extends Component {
                 <span className="tube">Tube</span>
               </Link>
             </li>
-            <li className="show-for-medium"><Link className="button" to="/player">Player</Link></li>
+            {this.props.isMobile ? '' : <li className="show-for-medium"><Link className="button" to="/player">Player</Link></li>}
             <li className="show-for-medium"><Link className="button" to="/queue">Queue</Link></li>
             <li className="show-for-medium"><Link className="button" to="/search">Search</Link></li>
           </ul>
@@ -91,7 +91,8 @@ const OffCanvasWrapper = (props) => {
 function mapStateToProps(state){
   return {
     queue: state.get('queue'),
-    playing: state.get('playing')
+    playing: state.get('playing'),
+    isMobile: state.get('isMobile')
   }
 }
 

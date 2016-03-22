@@ -33,7 +33,7 @@ export class Search extends Component {
               user={entry.get('user')}
               description={entry.get('description')}
               thumburl={entry.get('thumburl')}
-              handleSelect={(e) => {e.target.className += ' disabled'; this.props.addSong(entry); }} // this needs to be fixed
+              handleSelect={(e) => this.props.addSong(entry)} // this needs to be fixed
               handlePlayNext={(e) => this.props.addSongNext(entry)}
               handlePlayNow={e => this.props.playNow(entry)}
             />
@@ -72,20 +72,22 @@ class SearchForm extends Component {
     const { user, query } = this.state
     return  <form onSubmit={e => this.handleSubmit(e)}>
       <div className="row align-center">
-        <div className="small-12 medium-4 columns">
+       <div className="columns hide-for-medium">
           <div className="input-group">
             <span className="input-group-label"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
           </div>
         </div>
-        <div className="small-12 medium-4 columns">
+        <div className="columns">
           <div className="input-group">
+            <span className="input-group-label show-for-medium"><i className="fa fa-user"/></span>
+            <input value={user} onChange={e => this.userChange(e)} className="input-group-field show-for-medium" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
             <span className="input-group-label"><i className="fa fa-music"/></span>
             <input value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
+            <div className="input-group-button">
+              <input type="submit" className="button" value="Submit"/>
+            </div>
           </div>
-        </div>
-        <div className="shrink columns">
-          <input type="submit" className="button" value="Submit"/>
         </div>
       </div>
     </form>
@@ -93,7 +95,7 @@ class SearchForm extends Component {
 }
 
 const Card = (props) => {
-  return   <div className="medium-4 small-12 columns">
+  return   <div className="large-4 medium-6 small-12 columns">
     <div className="card">
       <div className="image">
         <img src={props.thumburl}/>
@@ -105,9 +107,9 @@ const Card = (props) => {
       </div>
       <div className="action">
         <div className="expanded button-group">
-        <a className="button" onClick={props.handlePlayNow}><i className="fa fa-play"/> Now</a>
-        <a className="button" onClick={props.handlePlayNext}><i className="fa fa-play"/> Next</a>
-        <a className="button" onClick={props.handleSelect}><i className="fa fa-plus"/> Add</a>
+        <a className="button secondary" onClick={props.handlePlayNow}><i className="fa fa-play"/>Now</a>
+        <a className="button secondary" onClick={props.handlePlayNext}><i className="fa fa-play"/>Next</a>
+        <a className="button" onClick={props.handleSelect}><i className="fa fa-plus"/>Add</a>
         </div>
       </div>
     </div>
