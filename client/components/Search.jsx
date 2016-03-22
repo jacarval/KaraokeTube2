@@ -83,7 +83,7 @@ class SearchForm extends Component {
             <span className="input-group-label show-for-medium"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field show-for-medium" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
             <span className="input-group-label"><i className="fa fa-music"/></span>
-            <input value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
+            <input onFocus={e => e.target.value = 'lyrics '} value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
             <div className="input-group-button">
               <input type="submit" className="button" value="Submit"/>
             </div>
