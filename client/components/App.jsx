@@ -5,10 +5,6 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../actionCreators'
 
 export class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   stop(e) {
     this.props.setPlayerState('stop')
   }
@@ -72,12 +68,6 @@ const OffCanvasWrapper = (props) => {
         <ul className="vertical menu" data-drilldown>
           <li><Link data-toggle="offCanvas" to="/queue">Queue</Link></li>
           <li><Link data-toggle="offCanvas" to="/search">Search</Link></li>
-          {/*<li>
-            <a href="#">Rooms</a>
-            <ul className="nested vertical menu">
-              <li><a href="#">Lobby</a></li>
-            </ul>
-          </li>*/}
           <li><a href="https://github.com/jacarval/KaraokeTube2">GitHub</a></li>
         </ul>
       </div>
@@ -91,7 +81,6 @@ const OffCanvasWrapper = (props) => {
 function mapStateToProps(state){
   return {
     queue: state.get('queue'),
-    playing: state.get('playing'),
     isMobile: state.get('isMobile')
   }
 }

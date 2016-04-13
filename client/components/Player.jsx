@@ -5,10 +5,6 @@ import YouTube from 'react-youtube'
 import * as actionCreators from '../actionCreators'
 
 export class Player extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   getVideoId() {
     return this.props.videoId || 'YHX22LXN6rA'
   }
@@ -38,11 +34,11 @@ export class Player extends Component {
       <div className="fullscreen-video-bg">
         <YouTube
           videoId={this.getVideoId()}
-          onEnd={() => this.props.getNext()}
+          onEnd={e => this.props.getNext()}
           onError={e => console.log(e)}
           opts={{ playerVars: { showinfo: 0, autoplay: 0 , iv_load_policy: 3 } }}
           className={'player'}
-          onReady={e => {this.onReady(e); console.log(e)}}
+          onReady={e => this.onReady(e)}
           onPlay={e => this.props.setPlayerState('play')}
           onPause={e => this.props.setPlayerState('pause')}
         />

@@ -5,10 +5,6 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../actionCreators'
 
 export class Search extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   getResults() {
     return this.props.results || []
   }

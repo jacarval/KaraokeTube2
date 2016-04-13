@@ -36,11 +36,8 @@ export function search(request) {
   const url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q='
   const params = '&type=video&maxResults=50&regionCode=US&key=AIzaSyAjZ9Y2YeyNJSk8Ko7T2iY-qTD-8QOUGBE'
   const { query, user } = request
-
   return dispatch => {
-
     dispatch(requestResults(request))
-
     return fetch(`${url}${query}${params}`)
       .then(response => response.json())
       .then(json => dispatch(receiveResults({ json, user })))

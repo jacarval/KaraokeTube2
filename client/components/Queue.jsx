@@ -20,6 +20,7 @@ export class Queue extends Component {
   scrollToPlaying() {
     // http://stackoverflow.com/a/21778615
     var el = $("#now_playing");
+    if (!el.offset()) return;
     var elOffset = el.offset().top;
     var elHeight = el.height();
     var windowHeight = $(window).height();
@@ -41,7 +42,7 @@ export class Queue extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.playing && this.props.playing && prevProps.playing.get('id') !== this.props.playing.get('id')) {
+    if (!prevProps.playing || prevProps.playing.get('id') !== this.props.playing.get('id')) {
       this.scrollToPlaying()
     }
   }
