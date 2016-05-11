@@ -30,6 +30,10 @@ var _core = require('./core');
 
 var _core2 = _interopRequireDefault(_core);
 
+var _expressSession = require('express-session');
+
+var _expressSession2 = _interopRequireDefault(_expressSession);
+
 // var _serverMiddleware = require('./serverMiddleware');
 
 // var _serverMiddleware2 = _interopRequireDefault(_serverMiddleware);
@@ -47,27 +51,37 @@ var io = (0, _socket2.default)();
 
 app.use('/dist', _express2.default.static(publicPath));
 
+app.use((0, _expressSession2.default)({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.get('/', function (req, res) {
-	res.sendFile(publicPath + '/index.html');
+  res.sendFile(publicPath + '/index.html');
 });
 
 db.getRoom('lobby').then(function (state) {
 
-	var store = (0, _redux.createStore)(_reducer2.default, (0, _immutable.fromJS)(state || _core2.default));
+  var store = (0, _redux.createStore)(_reducer2.default, (0, _immutable.fromJS)(state || _core2.default));
 
-	io.on('connection', function (socket) {
-		socket.emit('state', store.getState().toJS());
-		socket.on('action', store.dispatch.bind(store));
-	});
+  io.on('connection', function (socket) {
 
-	io.attach(server);
+    var cookie = socket.handshake.headers.cookie;
+    var sessionId = cookie.slice(cookie.indexOf('connect.sid=') + 12);
 
-	store.subscribe(function (e) {
-		io.emit('state', store.getState().toJS());
-		db.updateRoom('lobby', store.getState().toJS());
-	});
+    socket.emit('state', store.getState().toJS());
+    socket.on('action', store.dispatch.bind(store));
+  });
+
+  io.attach(server);
+
+  store.subscribe(function (e) {
+    io.emit('state', store.getState().toJS());
+    db.updateRoom('lobby', store.getState().toJS());
+  });
 });
 
 server.listen(process.env.PORT || 3000, '0.0.0.0', function () {
-	return console.log('listening on ' + (process.env.PORT || 3000));
+  return console.log('listening on ' + (process.env.PORT || 3000));
 });

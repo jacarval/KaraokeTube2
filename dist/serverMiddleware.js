@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 exports.default = applyMiddleware;
 
@@ -27,8 +27,8 @@ var compiler = (0, _webpack2.default)(_webpack4.default);
 
 function applyMiddleware(app) {
 
-	app.use((0, _webpackDevMiddleware2.default)(compiler, {
-		noInfo: true, publicPath: _webpack4.default.output.publicPath, colors: true
-	}));
-	app.use((0, _webpackHotMiddleware2.default)(compiler));
+  app.use((0, _webpackDevMiddleware2.default)(compiler, {
+    noInfo: true, publicPath: _webpack4.default.output.publicPath, colors: true
+  }));
+  app.use((0, _webpackHotMiddleware2.default)(compiler));
 }
