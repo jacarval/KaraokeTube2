@@ -45,6 +45,13 @@ export function search(request) {
   }
 }
 
+export function playNext() {
+  return dispatch => {
+    dispatch(getNext())
+    return dispatch(setPlayerState('play'))
+  }
+}
+
 export function setState(state) {
   return {
     type: 'SET_STATE',

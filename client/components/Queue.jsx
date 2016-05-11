@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import * as actionCreators from '../actionCreators'
 
 export class Queue extends Component {
+  constructor(props) {
+    super(props)
+  }
   getQueue() {
   	return this.props.queue || []
   }
@@ -70,6 +73,7 @@ export class Queue extends Component {
         <hr />
         {this.getQueue().map(song => {
           return <Next key={song.get('id')}
+            id={song.get('id')}
             title={song.get('title')}
             user={song.get('user')}
             description={song.get('description')}

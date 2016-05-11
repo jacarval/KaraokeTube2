@@ -39,6 +39,7 @@ export class Search extends Component {
   }
 
   render() {
+    const queueIdSet = this.props.queue && new Set(this.props.queue.map(entry => entry.get('id')).toJS())
     return <div className="search">
       <SearchForm search={this.props.search} user={this.props.user} query={this.props.query} />
       <div className="results" style={style.resultsPanel}>
@@ -46,11 +47,12 @@ export class Search extends Component {
         <div className="row align-middle">
           {this.getResults().map(entry => {
             return <Card key={entry.get('id')}
+              inQueue={queueIdSet.has(entry.get('id'))}
               title={entry.get('title')}
               user={entry.get('user')}
               description={entry.get('description')}
               thumburl={entry.get('thumburl')}
-              handleSelect={(e) => this.props.addSong(entry)} // this needs to be fixed
+              handleSelect={(e) => {this.props.addSong(entry)}}
               handlePlayNext={(e) => this.props.addSongNext(entry)}
               handlePlayNow={e => this.props.playNow(entry)}
             />
@@ -133,7 +135,7 @@ const Card = (props) => {
         <div className="expanded button-group">
         <a className="button secondary" onClick={props.handlePlayNow}><i className="fa fa-play"/>Now</a>
         <a className="button secondary" onClick={props.handlePlayNext}><i className="fa fa-play"/>Next</a>
-        <a className="button" onClick={props.handleSelect}><i className="fa fa-plus"/>Add</a>
+        {!props.inQueue ? <a className='button' onClick={props.handleSelect}><i className="fa fa-plus"/>Add</a> : <button className="button disabled">Added</button>}
         </div>
       </div>
     </div>
@@ -145,7 +147,8 @@ function mapStateToProps(state){
     query: state.get('query'),
     user: state.get('user'),
     results: state.get('results'),
-    isSearching: state.get('isSearching')
+    isSearching: state.get('isSearching'),
+    queue: state.get('queue')
   }
 }
 

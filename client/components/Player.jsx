@@ -36,7 +36,7 @@ export class Player extends Component {
       <div className="fullscreen-video-bg">
         <YouTube
           videoId={this.getVideoId()}
-          onEnd={e => this.props.showUpNext()}
+          onEnd={e => this.props.setPlayerState('stop')}
           onError={e => console.log(e)}
           opts={{ playerVars: { showinfo: 0, autoplay: 0 , iv_load_policy: 3 } }}
           className={'player'}
@@ -50,6 +50,8 @@ export class Player extends Component {
             currUser={playing && playing.get('user')}
             nextTitle={next && next.get('title')}
             nextUser={next && next.get('user')}
+            playNext={this.props.playNext}
+            playCurr={() => this.props.setPlayerState('play')}
           /> : null 
         }
       </div>
@@ -60,37 +62,41 @@ export class Player extends Component {
 const styles = {
   overlay: {
     position: 'absolute',
-    backgroundColor: 'red',
+    // backgroundColor: 'black',
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
-    right: '100', bottom: '80', left: '100',
-    height: '150px',
+    right: '100', top: '100', left: '100',
+    // height: '150px',
     color: 'white',
     textAlign: 'center',
     opacity: '0.9',
-    pointerEvents: 'none',
-    borderRadius: '15'
+    // pointerEvents: 'none',
+    borderRadius: '15',
   },
   overlayInner: {
     width: '450px'
+  },
+  button: {
+    borderRadius: '10px'
   }
 }
 
-const PlayerOverlay = ({currTitle, currUser, nextTitle, nextUser}) => {
+const PlayerOverlay = ({currTitle, currUser, nextTitle, nextUser, playNext, playCurr}) => {
   return <div className="overlay" style={styles.overlay}>
-    {/*<div className="previous">
-      {previous && previous.get('title')}
-    </div>*/}
     <div className="playing" style={styles.overlayInner}>
-      <h5>Now Playing</h5> 
-      <h3>{currUser}</h3>
-      <h5>{currTitle && currTitle.length > 40 ? `${currTitle.slice(0, 40)}...` : currTitle}</h5>
+      <button className="button alert" style={styles.button} onClick={playCurr}>
+        <h5>Now Playing</h5> 
+        <h3>{currUser}</h3>
+        <h5>{currTitle && currTitle.length > 40 ? `${currTitle.slice(0, 40)}...` : currTitle}</h5>
+      </button>
     </div>
     <div className="up_next" style={styles.overlayInner}>
-      <h5>Up Next</h5> 
-      <h3>{nextUser}</h3>
-      <h5>{nextTitle && nextTitle.length > 40 ? `${nextTitle.slice(0, 40)}...` : nextTitle}</h5>
+      <button className="button alert" style={styles.button} onClick={playNext}>
+        <h5>Up Next</h5> 
+        <h3>{nextUser}</h3>
+        <h5>{nextTitle && nextTitle.length > 40 ? `${nextTitle.slice(0, 40)}...` : nextTitle}</h5>
+      </button>
     </div>
   </div>
 }

@@ -7,7 +7,7 @@ const INITIAL_STATE = Map({ isMobile: isMobile() })
 export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case 'SET_PLAYER':
-      return state.merge({ player: action.player })
+      return state.merge({ player: action.player, playerState: 'stop' })
     case 'REQUEST_RESULTS':
       return state.merge(action.search)
     case 'RECEIVE_RESULTS':

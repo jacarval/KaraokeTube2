@@ -81,8 +81,7 @@ const OffCanvasWrapper = (props) => {
 function mapStateToProps(state){
   return {
     queue: state.get('queue'),
-    isMobile: state.get('isMobile'),
-    showUpNext: state.get('showUpNext')
+    isMobile: state.get('isMobile')
   }
 }
 
