@@ -4,6 +4,27 @@ import { connect } from 'react-redux'
 
 import * as actionCreators from '../actionCreators'
 
+const style = {
+  searchBarDesktop: {
+    position: 'fixed',
+    top: 80,
+    zIndex: 100,
+    right: 50,
+    left: 50,
+    paddingBottom: 80,
+  },
+  searchBarMobile: {
+    position: 'fixed',
+    top: 60,
+    right: 0,
+    left: 0,
+    zIndex: 100,
+  },
+  resultsPanel: {
+    paddingTop: 100,
+  }
+}
+
 export class Search extends Component {
   getResults() {
     return this.props.results || []
@@ -20,7 +41,7 @@ export class Search extends Component {
   render() {
     return <div className="search">
       <SearchForm search={this.props.search} user={this.props.user} query={this.props.query} />
-      <div className="results">
+      <div className="results" style={style.resultsPanel}>
         {this.showSpinner()}
         <div className="row align-middle">
           {this.getResults().map(entry => {
@@ -68,15 +89,22 @@ class SearchForm extends Component {
     const { user, query } = this.state
     return  <form onSubmit={e => this.handleSubmit(e)}>
       <div className="row align-center">
-       <div className="columns small-12 hide-for-medium">
+       <div className="columns small-12 hide-for-medium" style={style.searchBarMobile}>
           <div className="input-group">
             <span className="input-group-label"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
           </div>
-        </div>
-        <div className="columns small-12">
           <div className="input-group">
-            <span className="input-group-label show-for-medium"><i className="fa fa-user"/></span>
+            <span className="input-group-label"><i className="fa fa-music"/></span>
+            <input onFocus={e => e.target.value = 'lyrics '} value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
+            <div className="input-group-button">
+              <input type="submit" className="button" value="Submit"/>
+            </div>
+          </div>
+        </div>
+        <div className="columns small-12 show-for-medium" style={style.searchBarDesktop}>
+          <div className="input-group">
+            <span className="input-group-label"><i className="fa fa-user"/></span>
             <input value={user} onChange={e => this.userChange(e)} className="input-group-field show-for-medium" type="text" placeholder="Enter your name" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>
             <span className="input-group-label"><i className="fa fa-music"/></span>
             <input onFocus={e => e.target.value = 'lyrics '} value={query} onChange={e => this.queryChange(e)} className="input-group-field" type="text" placeholder="Enter a song" autoCorrect="off" autoComplete="off" autoCapitalize="off"/>

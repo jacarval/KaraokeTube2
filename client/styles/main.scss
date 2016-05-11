@@ -18,6 +18,7 @@ body {
   position: fixed;
   width: 100%;
   background: none;
+  z-index: 100;
 
   #brand {
     font-weight: bold;
@@ -27,7 +28,7 @@ body {
     text-shadow: 0 .1rem .1rem rgba(0,0,0,1);
     background: none;
     color: white;
-    font-size: 1.2em;
+    font-size: 1.5em;
 
 
     &:hover {

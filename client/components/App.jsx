@@ -28,7 +28,7 @@ export class App extends Component {
   render() {
     return <OffCanvasWrapper>
       <div className="top-bar" id="top-bar">
-        <div className="top-bar-left">
+        <div className="">
           <ul className="dropdown menu align-left" data-dropdown-menu>
             <li id="brand">
               <Link className="button" to="/">
@@ -41,8 +41,8 @@ export class App extends Component {
             <li className="show-for-medium"><Link className="button" to="/search">Search</Link></li>
           </ul>
         </div>
-        <div className="top-bar-right">
-          <ul className="menu show-for-medium">
+        <div className="">
+          <ul className="menu show-for-medium align-right">
             {/*<li><a className="button" ><i className="fa fa-undo"/></a></li>*/}
             <li><a className="button" onClick={e => this.stop(e)}><i className="fa fa-stop"/></a></li>
             <li><a className="button" onClick={e => this.pause(e)}><i className="fa fa-pause"/></a></li>
@@ -81,7 +81,8 @@ const OffCanvasWrapper = (props) => {
 function mapStateToProps(state){
   return {
     queue: state.get('queue'),
-    isMobile: state.get('isMobile')
+    isMobile: state.get('isMobile'),
+    showUpNext: state.get('showUpNext')
   }
 }
 
